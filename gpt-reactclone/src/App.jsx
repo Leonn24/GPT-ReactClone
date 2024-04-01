@@ -1,16 +1,16 @@
-import { useState } from 'react'
 import './App.css'
+import './normal.css'
+import Chatbox from './components/Chatbox'
+import Sidebar from './components/Sidebar'
 
-import MessageBox from '../components/MessageBox'
-import ChatBox from '../components/ChatBox'
 
 function App() {
 
   return (
     <>
       <div>
-          <ChatBox/>
-          <MessageBox/>
+        <Sidebar />
+        <Chatbox />
       </div>
     </>
   )
