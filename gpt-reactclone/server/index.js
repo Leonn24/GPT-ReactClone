@@ -7,7 +7,7 @@ const connectDB = require('./config/connection')
 const chatRoutes = require("./routes/chatRoutes");
 dotenv.config();
 
-connectDB();
+//connectDB();
 
 
 const app = express();
