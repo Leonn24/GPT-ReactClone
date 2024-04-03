@@ -11,10 +11,10 @@ const openai = new OpenAI({
 router.use(express.json());
 
 router.post("/chat", async (req, res) => {
-    const {prompt} = req.body;
+    const prompt = req.body.messages[0].content;
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4",
             messages: [
                 {
                     "role": "user",
@@ -28,8 +28,8 @@ router.post("/chat", async (req, res) => {
             presence_penalty: 0,
         });
 
-        res.send(response.data.choices[0].message.content)
-
+        console.log(response.choices[0].message);
+        res.send(response.choices[0].message)
     } catch (err) {
         res.status(500).send(err)
     }
