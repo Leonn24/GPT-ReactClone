@@ -1,10 +1,11 @@
 import React from 'react'
-import {Box, Link, Typography} from '@mui/material'
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <div>
-        Navbar
+        <Link to="/"> Home </Link>
+        <Link to="/login"> Login </Link>
     </div>
   )
 }

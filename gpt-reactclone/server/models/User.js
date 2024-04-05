@@ -35,7 +35,7 @@ userSchema.methods.matchPassword=async function(password) {
     return await bcrypt.compare(password, this.password)
 };
 
-signToken: function ({ email, username, _id }) {
-    const payload = { email, username, _id };
-    return JWT.sign({ data: payload }, secret, { expiresIn:  });
-}
+// signToken: function ({ email, username, _id }) {
+//     const payload = { email, username, _id };
+//     return JWT.sign({ data: payload }, secret, { expiresIn:  });
+// }
