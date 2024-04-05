@@ -19,9 +19,12 @@ const Login = (props) => {
     return (
         <div className={'mainContainer'}>
             <div className={'titleContainer'}>
-                <div>Login</div>
+                <h1>Login</h1>
             </div>
-            <br />
+            {/* <br /> */}
+            <div className={'titleContainer'}>
+                <h4>Don't have an account? Sign up <Link to="/signup">here</Link></h4>
+            </div>
             <div className={'inputContainer'}>
                 <input
                     value={username}
