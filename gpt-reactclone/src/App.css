@@ -42,6 +42,12 @@ justify-content: center;
 .Sidebar {
   width: 240px;
   height: 100vh;
-  background-color: #202123;
-  
+  background-color: #202123; 
+}
+
+.sidebarText {
+  color: white;
+  font-size: large;
+  border-radius: 55%;
+  background-color: coral;
 }
