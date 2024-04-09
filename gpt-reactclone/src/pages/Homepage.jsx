@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Chatbox from '../components/Chatbox';
+import Sidebar from '../components/Sidebar'
 import AnswerSection from '../components/Answer';
 import OpenAI from "openai";
 import '../App.css';
@@ -13,7 +14,7 @@ function Homepage() {
     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true
   });
-  
+
   const responseGenerate = async (inputText, setInputText) => {
     let option = {
       model: "gpt-3.5-turbo-instruct",
@@ -29,7 +30,7 @@ function Homepage() {
       ...option,
       prompt: inputText,
     };
-    
+
     const response = await openai.completions.create(completeOptions);
     if (response.choices.length) {
       setMessages([
@@ -45,10 +46,13 @@ function Homepage() {
 
   return (
     <>
-      <div>
-        <Header />
-        <Chatbox responseGenerate={responseGenerate}/>
-        <AnswerSection messages={messages}/>
+      <div className='homePageContent'>
+        <Sidebar />
+          <div className='chatbotContainer'>
+            <Header />
+            <Chatbox responseGenerate={responseGenerate} />
+            <AnswerSection messages={messages} />
+          </div>
       </div>
     </>
   );

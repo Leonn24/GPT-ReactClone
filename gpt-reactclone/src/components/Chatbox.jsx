@@ -7,7 +7,7 @@ function Chatbox({responseGenerate}) {
 
 
   return (
-    <div>
+    <div className='textBox'>
       <section className='formDiv'>
         <textarea 
         rows='5'

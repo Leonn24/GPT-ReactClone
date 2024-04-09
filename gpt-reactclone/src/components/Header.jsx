@@ -9,7 +9,7 @@ function Header() {
             <img src={GPTLogo} alt='ChatGPT Logo' className='logo-image' />
             <br/>
             <p className='header-subtext'>
-                Welcome to ChatGPT, An AI language model deveopled by OpenAI!
+                Welcome to ChatGPT, An AI language model developed by OpenAI!
             </p>
         </div>
       <br/>
