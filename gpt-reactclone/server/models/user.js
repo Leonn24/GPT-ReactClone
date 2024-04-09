@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const JWT = require("jsonwebtoken");
-const cookie = require("cookie");
+
+
 
 //models
 const userSchema = new mongoose.Schema({
@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required"],
     minlength: [6, "Password length should be 6 character long"],
   },
+  history: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "History"
+  }]
 });
 
 userSchema.pre("save", async function (next) {
