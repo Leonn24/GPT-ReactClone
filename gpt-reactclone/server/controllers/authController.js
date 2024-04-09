@@ -1,6 +1,6 @@
-const { default: errorHandler } = require('../middlewares/error');
+const  errorHandler = require('../middlewares/error');
 const userModel = require('../models/user');
-const { default: errorResponse } = require('../utils/errorHandler');
+const errorResponse = require('../utils/errorResponse');
 
 exports.sentToken = (user, statusCode, res) => {
     const token = user.getSignedToken(res)
@@ -16,10 +16,10 @@ exports.registerController = async (req, res, next) => {
         // existing user
         const existingEmail = await userModel.findOne({ email })
         if (existingEmail) {
-            return next(new errorHandler('Email is already taken', 500))
+            return next(new errorResponse('Email is already taken', 500))
         }
         const user = await userModel.create({ username, email, password })
-        sendToken(user, 201, res)
+        exports.sentToken(user, 201, res)
     } catch (error) {
         console.log(error)
         next(error)
@@ -31,7 +31,7 @@ exports.loginController = async (req, res, next) => {
         const { email, password } = req.body
         //validation
         if (!email || !password) {
-            return next(new errorHandler('Please provide email or password!'))
+            return next(new errorResponse('Please provide email or password!'))
         }
         const user = await userModel.findOne({ email });
         if (!user) {
@@ -41,7 +41,7 @@ exports.loginController = async (req, res, next) => {
         if (!isMatch) {
             return next(new errorResponse('Invalid Creditial', 401));
         }
-        sendToken(user, 200, res);
+        exports.sentToken(user, 200, res);
     } catch (error) {
         console.log(error)
         next(error)

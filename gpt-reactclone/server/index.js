@@ -18,14 +18,13 @@ app.use(cors());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(morgan('dev'));
-app.use(errorHandler)
 app.use("/", chatRoutes)
+app.use('/api/v1/auth', authRoutes);
 
 
 const PORT = process.env.PORT || 3000;
 
-// check if you need to add /v1
-app.use('/api/auth', authRoutes);
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`server running on ${PORT}`);
