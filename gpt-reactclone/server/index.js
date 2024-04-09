@@ -1,24 +1,40 @@
 const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
 const dotenv = require("dotenv");
-const connectDB = require('./config/connection')
+const connectDB = require('./config/connection');
+const { typeDefs, resolvers } = require('./schemas');
+const { authMiddleware } = require('./utils/auth');
 
-const chatRoutes = require("./routes/chatRoutes");
 dotenv.config();
-
-//connectDB();
-
-
-const app = express();
-app.use(cors());
-app.use(express.json())
-app.use(bodyParser.urlencoded({extended:false}));
-app.use("/", chatRoutes)
 
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`server running on ${PORT}`);
+const app = express();
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
 });
+
+const startApolloServer = async () => {
+    await server.start();
+
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    app.use('/graphql', expressMiddleware(server, {
+        context: authMiddleware
+    }));
+
+    if (process.env.NODE_ENV === 'production') {
+        app.use(express.static(path.join(__dirname, '../client/dist')));
+
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+        });
+    }
+
+  connectDB();
+  app.listen(PORT)
+};
+
+startApolloServer();
