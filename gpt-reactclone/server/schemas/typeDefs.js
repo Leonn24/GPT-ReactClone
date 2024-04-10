@@ -1,9 +1,9 @@
 const typeDefs =`
   type User {
-    _id: ID!
-    username: String!
-    email: String!
-    password: String!
+    _id: ID
+    username: String
+    email: String
+    password: String
   }
   type AuthPayload {
     token: String!
@@ -13,13 +13,12 @@ const typeDefs =`
     inputText: String!
     answer: String!
   }
-
   type Query {
-    user: User!
+    user: User
   }
 
   type Mutation {
-    register(username: String!, email: String!, password: String!): AuthPayload!
+    addUser(username: String!, email: String!, password: String!): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
     generateResponse(inputText: String!): ResponsePayload!
   }

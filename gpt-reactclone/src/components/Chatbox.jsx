@@ -1,44 +1,52 @@
-import React from 'react'
-import '../App.css'
-import {useState} from 'react'
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { GENERATE_RESPONSE } from '../utils/mutation';
 
-var running = false;
+const ChatBox = () => {
+  const [messages, setMessages] = useState([]); // State to store chat messages
+  const [message, setMessage] = useState(''); 
+  const [generateResponse] = useMutation(GENERATE_RESPONSE); 
 
-function Chatbox({responseGenerate}) {
-  const [inputText, setInputText] = useState('');
-  
-  addEventListener('keydown', (event) => {
-    if (!running){
-      running = true;
-      if(event.keyCode === 13){
-        event.preventDefault();
-        responseGenerate(event.target.value, setInputText)
-      }
+  const handleMessageSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await generateResponse({
+        variables: { inputText: message },
+      });
+      const response = data.generateResponse.answer;
+      setMessages((prevMessages) => [...prevMessages, { text: message, isUser: true }, { text: response, isUser: false }]);
+      setMessage(''); 
+    } catch (error) {
+      console.error('Error generating response:', error);
     }
-  });
+  };
 
-  addEventListener('keyup', (event) => {
-    running = false;
-  });
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
 
   return (
     <div>
-      <section className='formDiv'>
-        <textarea 
-        rows='5'
-        className='formControl'
-        placeholder='Ask Me'
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        ></textarea>
-        <br/>
-        <button
-        onClick={() => responseGenerate(inputText, setInputText)}
-        className='formBtn'>Generate Response</button>
-
-      </section>
+      <div>
+        {/* Render chat messages */}
+        {messages.map((message, index) => (
+          <div key={index} className={message.isUser ? 'user-message' : 'response-message'}>
+            {message.text}
+          </div>
+        ))}
+      </div>
+      <form onSubmit={handleMessageSubmit}>
+        <input
+          type="text"
+          value={message}
+          onChange={handleMessageChange}
+          placeholder="Type your message..."
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Chatbox
+export default ChatBox;

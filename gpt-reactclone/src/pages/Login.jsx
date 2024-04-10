@@ -1,54 +1,84 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import Auth from '../components/Auth'
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { Container, Typography, TextField, Button, Link } from '@mui/material';
+import { LOGIN } from '../utils/mutation';
+import Auth from '../utils/auth';
 
-const Login = (props) => {
+const Login = () => {
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN);
 
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const mutationResponse = await login({
+        variables: { email: formState.email, password: formState.password },
+      });
+      const token = mutationResponse.data.login.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    return (
-        <div className={'mainContainer'}>
-            <div className={'titleContainer'}>
-                <h1>Login</h1>
-            </div>
-            <div className={'titleContainer'}>
-                <h4>Don't have an account? Sign up <Link to="/signup">here</Link></h4>
-            </div>
-            <div className={'inputContainer'}>
-                <input
-                    value={username}
-                    placeholder="Enter your username here"
-                    className={'inputBox'}
-                    onChange={(ev) => setUsername(ev.target.value)}
-                />
-            </div>
-            <div className={'inputContainer'}>
-                <input
-                    value={email}
-                    placeholder="Enter your email here"
-                    className={'inputBox'}
-                    onChange={(ev) => setEmail(ev.target.value)}
-                />
-            </div>
-            <br />
-            <div className={'inputContainer'}>
-                <input
-                    value={password}
-                    placeholder="Enter your password here"
-                    className={'inputBox'}
-                    onChange={(ev) => setPassword(ev.target.value)}
-                />
-            </div>
-            <br />
-            <div className={'inputContainer'}>
-                <Link to="/">
-                  <button>Log in</button>
-                </Link>
-            </div>
-        </div>
-    )
-}
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
-export default Login
+  return (
+    <Container component="main" maxWidth="sm" style={{ marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Typography component="h1" variant="h5" align="center">
+        Log in to ChatGPT
+      </Typography>
+      <form onSubmit={handleFormSubmit} style={{ width: '100%', marginTop: '1rem' }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          type="email"
+          placeholder="Enter your email"
+          value={formState.email}
+          onChange={handleChange}
+          style={{ marginBottom: '1rem' }}
+          required
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          value={formState.password}
+          onChange={handleChange}
+          style={{ marginBottom: '1rem' }}
+          required
+        />
+        {error && <Typography variant="body2" color="error" align="center">{error.message}</Typography>}
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          style={{ marginTop: '2rem' }}
+        >
+          Log In
+        </Button>
+        <Typography variant="body2" style={{ marginTop: '2rem', textAlign: 'center' }}>
+          Don't have an account? <Link href="/signup">Sign Up</Link>
+        </Typography>
+      </form>
+    </Container>
+  );
+};
+
+export default Login;
