@@ -1,56 +1,41 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import Chatbox from './components/Chatbox';
-import AnswerSection from './components/Answer';
-import OpenAI from "openai";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import './App.css';
 import './normal.css';
 
-function App() {
-  const [messages, setMessages] = useState([]);
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
-  const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true
-  });
-  
-  const responseGenerate = async (inputText, setInputText) => {
-    let option = {
-      model: "gpt-3.5-turbo-instruct",
-      prompt: 'Complete this sentence: "${inputText}"',
-      temperature: 1,
-      max_tokens: 256,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-    };
-
-    let completeOptions = {
-      ...option,
-      prompt: inputText,
-    };
-    
-    const response = await openai.completions.create(completeOptions);
-    if (response.choices.length) {
-      setMessages([
-        {
-          question: inputText,
-          answer: response.choices[0].text,
-        },
-        ...messages,
-      ]);
-      setInputText('');
-    }
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
   };
+});
 
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+function App() {
+ 
   return (
-    <>
-      <div>
-        <Header />
-        <Chatbox responseGenerate={responseGenerate}/>
-        <AnswerSection messages={messages}/>
-      </div>
-    </>
+      <ApolloProvider client={client}>
+      {/* <Navbar /> */}
+      <Outlet />
+      </ApolloProvider>
   );
 }
 

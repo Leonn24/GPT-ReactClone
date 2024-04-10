@@ -22,8 +22,7 @@ const resolvers = {
         }
     },
     Mutation: {
-        register: async (_, { username, email, password }) => {
-            // const hashedPassword = await User.generateHash(password);
+        addUser: async (_, { username, email, password }) => {
             const user = await User.create({ username, email, password });
             const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
             return { token, user };
