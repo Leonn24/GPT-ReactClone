@@ -36,28 +36,58 @@ const ChatBox = () => {
   };
 
   return (
-    <div>
+    <Container
+      component="main"
+      maxWidth="sm"
+      style={{
+        marginTop: "8rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography component="h1" variant="h5" align="center">
+        Chat with ChatGPT
+      </Typography>
       <div>
         {/* Render chat messages */}
         {messages.map((message, index) => (
-          <div key={index} className={message.isUser ? 'user-message' : 'response-message'}>
+          <div
+            key={index}
+            className={message.isUser ? "user-message" : "response-message"}
+          >
             {message.text}
           </div>
         ))}
       </div>
-      <form onSubmit={handleMessageSubmit}>
-        <input
+      <form
+        onSubmit={handleMessageSubmit}
+        style={{ width: "100%", marginTop: "1rem" }}
+      >
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="message"
+          label="Your Message"
+          name="message"
           type="text"
+          placeholder="Type your message..."
           value={message}
           onChange={handleMessageChange}
-          placeholder="Type your message..."
           required
         />
-        <br />
-        <br />
-        <button type="submit">Generate Response</button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          style={{ marginTop: "1rem" }}
+        >
+          Send
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };
 

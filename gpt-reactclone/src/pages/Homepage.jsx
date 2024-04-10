@@ -1,27 +1,16 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Chatbox from '../components/Chatbox';
-import AnswerSection from '../components/Answer';
-import OpenAI from "openai";
-import '../App.css';
-import '../normal.css';
+import React from 'react';
+import ChatBox from '../components/ChatBox';
+import Navigation from '../components/Navigation';
 
-function Homepage() {
-  const [messages, setMessages] = useState([]);
-  
-  const responseGenerate = async (inputText, setInputText) => {
-     return "";
-  };
 
+const Homepage = () => {
   return (
-    <>
-      <div>
-        <Header />
-        <Chatbox responseGenerate={responseGenerate}/>
-        <AnswerSection messages={messages}/>
-      </div>
-    </>
+    <div>
+      <h1>Welcome to the Homepage</h1>
+      <ChatBox />
+      <Navigation />
+    </div>
   );
-}
+};
 
 export default Homepage;
