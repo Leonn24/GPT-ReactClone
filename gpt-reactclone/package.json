@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.10",
+    "@apollo/server": "^4.10.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.14",
+    "apollo-server": "^3.13.0",
     "axios": "^1.6.8",
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
