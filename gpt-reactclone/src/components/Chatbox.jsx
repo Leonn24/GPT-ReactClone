@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { GENERATE_RESPONSE } from '../utils/mutation';
+import { Container, Typography, TextField, Button, Link } from "@mui/material";
 import Auth from '../utils/auth';
 
+ 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]); // State to store chat messages
   const [message, setMessage] = useState(''); 
@@ -10,7 +12,6 @@ const ChatBox = () => {
 
   const handleMessageSubmit = async (event) => {
     event.preventDefault();
-    Auth.logout();
     if(Auth.loggedIn()){
       console.log("User is logged in");
       try {
