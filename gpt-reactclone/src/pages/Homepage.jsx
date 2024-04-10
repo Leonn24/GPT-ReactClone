@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
+import ChatBox from '../components/ChatBox';
+import Navigation from '../components/Navigation';
 
-function Homepage() {
+
+const Homepage = () => {
   return (
     <div>
-      <h1>Homepage</h1>
+      <h1>Welcome to the Homepage</h1>
+      <ChatBox />
+      <Navigation />
     </div>
-  )
-}
+  );
+};
 
-export default Homepage
+export default Homepage;
