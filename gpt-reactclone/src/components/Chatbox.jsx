@@ -1,28 +1,34 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { GENERATE_RESPONSE } from '../utils/mutation';
 import { Container, Typography, TextField, Button, Link } from "@mui/material";
-import { GENERATE_RESPONSE } from "../utils/mutation";
+import Auth from '../utils/auth';
 
+ 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]); // State to store chat messages
-  const [message, setMessage] = useState("");
-  const [generateResponse] = useMutation(GENERATE_RESPONSE);
+  const [message, setMessage] = useState(''); 
+  const [generateResponse] = useMutation(GENERATE_RESPONSE); 
 
   const handleMessageSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const { data } = await generateResponse({
-        variables: { inputText: message },
-      });
-      const response = data.generateResponse.answer;
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: message, isUser: true },
-        { text: response, isUser: false },
-      ]);
-      setMessage("");
-    } catch (error) {
-      console.error("Error generating response:", error);
+    if(Auth.loggedIn()){
+      console.log("User is logged in");
+      try {
+        const { data } = await generateResponse({
+          variables: { inputText: message },
+        });
+        const response = data.generateResponse.answer;
+        setMessages((prevMessages) => [...prevMessages, { text: message, isUser: true }, { text: response, isUser: false }]);
+        setMessage(''); 
+      } 
+      catch (error) {
+        console.error('Error generating response:', error);
+      }
+    }
+    else{
+      console.log("User is not logged in");
+      window.location.replace("http://localhost:3001/login");
     }
   };
 
