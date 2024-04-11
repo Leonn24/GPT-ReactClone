@@ -15,7 +15,7 @@ const Homepage = () => {
           <div>Please log in to access the chat function.
             <Navigation />
           </div>
-          
+
         )}
       
     </div>
