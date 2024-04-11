@@ -1,6 +1,6 @@
 import React from 'react';
-import Chatbox from '../components/Chatbox';
-import Navigation from '../components/Navigation';
+import Chatbox from '../../../client/src/components/Chatbox';
+import Navigation from '../../../client/src/components/Navigation';
 import Auth from '../utils/auth';
 
 var isLoggedIn = Auth.loggedIn();
