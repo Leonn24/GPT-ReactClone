@@ -44,7 +44,7 @@ const ChatBox = () => {
         marginTop: "8rem",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "center"
       }}
     >
       <Typography component="h1" variant="h5" align="center">
@@ -63,9 +63,10 @@ const ChatBox = () => {
       </div>
       <form
         onSubmit={handleMessageSubmit}
-        style={{ width: "100%", marginTop: "1rem" }}
+        style={{ width: "100%", marginTop: "1rem"}}
       >
         <TextField
+          sx={{input:{ color:'white'}}}          
           variant="outlined"
           margin="normal"
           fullWidth

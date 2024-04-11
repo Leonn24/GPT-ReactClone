@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Container, Typography, TextField, Button, Link } from '@mui/material';
+import { palette } from '@mui/system';
 import { LOGIN } from '../utils/mutation';
 import Auth from '../utils/auth';
 
@@ -30,12 +31,13 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="sm" style={{ marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Container className='textWhite' component="main" maxWidth="sm" style={{ marginTop: '8rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Typography component="h1" variant="h5" align="center">
         Log in to ChatGPT
       </Typography>
       <form onSubmit={handleFormSubmit} style={{ width: '100%', marginTop: '1rem' }}>
         <TextField
+          sx={{ input: { color: 'white' } }}
           variant="outlined"
           margin="normal"
           fullWidth
@@ -50,6 +52,7 @@ const Login = () => {
           required
         />
         <TextField
+          sx={{ input: { color: 'white' } }}
           variant="outlined"
           margin="normal"
           fullWidth
@@ -60,7 +63,7 @@ const Login = () => {
           placeholder="Enter your password"
           value={formState.password}
           onChange={handleChange}
-          style={{ marginBottom: '1rem' }}
+          style={{ marginBottom: '1rem'}}
           required
         />
         {error && <Typography variant="body2" color="error" align="center">{error.message}</Typography>}

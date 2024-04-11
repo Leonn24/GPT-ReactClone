@@ -36,8 +36,9 @@ const SignUpForm = () => {
       <Typography component="h1" variant="h5" align="center">
         Sign Up
       </Typography>
-      <form onSubmit={handleFormSubmit} style={{ width: '100%', marginTop: '1rem' }}>
+      <form onSubmit={handleFormSubmit} style={{ width: '100%', marginTop: '1rem'}}>
         <TextField
+          sx={{input: { color:'white'}}}
           variant="outlined"
           margin="normal"
           fullWidth
@@ -50,6 +51,7 @@ const SignUpForm = () => {
           required
         />
         <TextField
+          sx={{input: { color:'white'}}}
           variant="outlined"
           margin="normal"
           fullWidth
@@ -63,6 +65,7 @@ const SignUpForm = () => {
           required
         />
         <TextField
+          sx={{input: { color:'white'}}}
           variant="outlined"
           margin="normal"
           fullWidth
