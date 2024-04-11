@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Auth from "../utils/auth"
+import Auth from "../../../gpt-reactclone/src/utils/auth"
 
 const Navbar = () => {
   const authService = Auth;
